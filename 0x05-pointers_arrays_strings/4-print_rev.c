@@ -1,4 +1,4 @@
-#include <main.h>
+#include "main.h"
 #include <stdio.h>
 /**
  * print_rev - toma la cadena de la funcion.
@@ -14,7 +14,7 @@ void print_rev(char *s)
 	}
 	for (len = len - 1; len >= 0; len--)
 	{
-		_putchar(s[len]);
+		putchar(s[len]);
 	}
-	_putchar('\n');
+	putchar('\n');
 }

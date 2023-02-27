@@ -1,25 +1,20 @@
 #include <main.h>
 #include <stdio.h>
-
 /**
- * print_rev - Entry Point
- * @s: Varaible
- * Return: Always 0
+ * print_rev - toma la cadena de la funcion.
+ * @s: value taken from main
+ * Return: (0)
  */
-
 void print_rev(char *s)
 {
-	int i = 0;
+	int len;
 
-	while (s[i])
+	for (len = 0; s[len] != '\0'; len++)
 	{
-		i++;
 	}
-
-	while (i--)
+	for (len = len - 1; len >= 0; len--)
 	{
-		putchar(s[i]);
+		_putchar(s[len]);
 	}
-
-	putchar('\n');
+	_putchar('\n');
 }

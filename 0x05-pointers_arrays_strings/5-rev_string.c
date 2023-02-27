@@ -1,23 +1,30 @@
+#include <stdio.h>
 #include "main.h"
-#include <string.h>
-
 /**
- * rev_string - Enrty point
- * @s: variable
- * Return: always 0
+ *rev_string - update value.
+ *@s: value to be evaluate.
+ *Return: not.
  */
-
 void rev_string(char *s)
 {
-	int i, len;
+	int len = 0;
+	int l = 0;
+	char *y = s;
+	int e = 0;
+	int x;
+	char n;
 
-	char t;
-
-	len = strlen(s);
-	for (i = 0; i < (len / 2); i++)
+	while (*y != '\0')
 	{
-		t = s[i];
-		s[i] = s[len - i - 1];
-		s[len - i - 1] = t;
+		y++;
+		len++;
+	}
+	l = len - 1;
+	for ( ; e < ((l / 2) + 1) ; e++)
+	{
+		x = (l - e);
+		n = s[e];
+		s[e] = s[x];
+		s[x] = n;
 	}
 }

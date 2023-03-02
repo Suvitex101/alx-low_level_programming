@@ -24,7 +24,7 @@ p = &n;
 */
 ;
 /* ...so that this prints 98\n */
-*(p + 5) = 98;
+*(p = &a[2] - (p - &n)) = 98;
 /* ...so that this prints 98\n */
 printf("a[2] = %d\n", a[2]);
 return (0);

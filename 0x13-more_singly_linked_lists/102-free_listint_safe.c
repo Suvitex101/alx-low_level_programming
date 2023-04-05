@@ -8,24 +8,6 @@
 
 size_t free_listint_safe(listint_t **h)
 {
-	listint_t *upper;
-	size_t sum;
-
-	while (*h)
-	{
-		sum++;
-
-		if (*h <= (*h)->next)
-		{
-			free(*h);
-			break;
-		}
-		upper = (*h)->next;
-		free(*h);
-		*h = upper;
-	}
-	*h = NULL;
-
-	return (sum);
-
+	h++;
+	return (0);
 }

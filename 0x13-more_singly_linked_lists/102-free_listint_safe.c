@@ -1,38 +1,90 @@
 #include "lists.h"
 
+size_t help_listint_safe_me(listint_t *head);
+size_t free_listint_safe(listint_t **h);
+
 /**
- *free_listint_safe - frees a listint_t linked list
- *@h: pointer to the head node
- *Return: the size of the list that was free
+ *help_listint_safe_me - Counts the number of special nodes
+ *@head: pointer to the head node
+ *Return: return 0
+ */
+
+size_t help_listint_safe_me(listint_t *head)
+{
+	listint_t *cat, *hare;
+	size_t run = 1;
+
+	if (head == NULL || head->next == NULL)
+		return (0);
+
+	cat = head->next;
+	hare = (head->next)->next;
+
+	while (hare)
+	{
+		if (cat == hare)
+		{
+			cat = head;
+			while (cat != hare)
+			{
+				run++;
+				cat = cat->next;
+				hare = hare->next;
+			}
+
+			cat = cat->next;
+			while (cat != hare)
+			{
+				run++;
+				cat = cat->next;
+			}
+
+			return (run);
+		}
+
+		cat = cat->next;
+		hare = (hare->next)->next;
+	}
+
+	return (0);
+}
+
+/**
+ *free_listint_safe - function that frees a link list.
+ *@h: pointer to the head of the list
+ *Return: the size of the list
  */
 
 size_t free_listint_safe(listint_t **h)
 {
-	int ahead;
-	listint_t *nodeNew;
-	size_t count = 0;
+	listint_t *upper;
+	size_t count, a;
 
-	if (!h || !*h)
-		return (0);
+	count = help_listint_safe_me(*h);
 
-	while (*h)
+	if (count == 0)
 	{
-		ahead = *h - (*h)->next;
-		if (ahead > 0)
+		for (; h != NULL && *h != NULL; count++)
 		{
-			nodeNew = (*h)->next;
-			*h = nodeNew;
-			count++;
-		}
-		else
-		{
-			*h = NULL;
-			count++;
-			break;
+			upper = (*h)->next;
+			free(*h);
+			*h = upper;
 		}
 	}
 
-	*h = NULL;
+	else
+	{
+		for (a = 0; a < count; a++)
+		{
+			upper = (*h)->next;
+			free(*h);
+			*h = upper;
+		}
+
+		*h = NULL;
+	}
+
+	h = NULL;
 
 	return (count);
 }

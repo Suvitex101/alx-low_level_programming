@@ -7,14 +7,13 @@
 #include <elf.h>
 
 /**
- * print_addr - prints address
- * @ptr: magic.
- * Return: no return.
+ * display_addr - prints address
+ * @ptr: Pointer.
  */
-void print_addr(char *ptr)
+void display_addr(char *ptr)
 {
-	int i;
-	int begin;
+	int idx;
+	int start;
 	char sys;
 
 	printf("  Entry point address:               0x");
@@ -22,14 +21,14 @@ void print_addr(char *ptr)
 	sys = ptr[4] + '0';
 	if (sys == '1')
 	{
-		begin = 26;
+		start = 26;
 		printf("80");
-		for (i = begin; i >= 22; i--)
+		for (idx = start; idx >= 22; idx--)
 		{
-			if (ptr[i] > 0)
-				printf("%x", ptr[i]);
-			else if (ptr[i] < 0)
-				printf("%x", 256 + ptr[i]);
+			if (ptr[idx] > 0)
+				printf("%x", ptr[idx]);
+			else if (ptr[idx] < 0)
+				printf("%x", 256 + ptr[idx]);
 		}
 		if (ptr[7] == 6)
 			printf("00");
@@ -37,14 +36,14 @@ void print_addr(char *ptr)
 
 	if (sys == '2')
 	{
-		begin = 26;
-		for (i = begin; i > 23; i--)
+		start = 26;
+		for (idx = start; idx > 23; idx--)
 		{
-			if (ptr[i] >= 0)
-				printf("%02x", ptr[i]);
+			if (ptr[idx] >= 0)
+				printf("%02x", ptr[idx]);
 
-			else if (ptr[i] < 0)
-				printf("%02x", 256 + ptr[i]);
+			else if (ptr[idx] < 0)
+				printf("%02x", 256 + ptr[idx]);
 
 		}
 	}
@@ -52,79 +51,75 @@ void print_addr(char *ptr)
 }
 
 /**
- * print_type - prints type
- * @ptr: magic.
- * Return: no return.
+ * display_type - prints type
+ * @ptr: Pointer
  */
-void print_type(char *ptr)
+void display_type(char *ptr)
 {
-	char type = ptr[16];
+	char buffer = ptr[16];
 
 	if (ptr[5] == 1)
-		type = ptr[16];
+		buffer = ptr[16];
 	else
-		type = ptr[17];
+		buffer = ptr[17];
 
 	printf("  Type:                              ");
-	if (type == 0)
+	if (buffer == 0)
 		printf("NONE (No file type)\n");
-	else if (type == 1)
+	else if (buffer == 1)
 		printf("REL (Relocatable file)\n");
-	else if (type == 2)
+	else if (buffer == 2)
 		printf("EXEC (Executable file)\n");
-	else if (type == 3)
+	else if (buffer == 3)
 		printf("DYN (Shared object file)\n");
-	else if (type == 4)
+	else if (buffer == 4)
 		printf("CORE (Core file)\n");
 	else
-		printf("<unknown: %x>\n", type);
+		printf("<unknown: %x>\n", buffer);
 }
 
 /**
- * print_osabi - prints osabi
- * @ptr: magic.
- * Return: no return.
+ * display_osabi - prints osabi
+ * @ptr: Pointer
  */
-void print_osabi(char *ptr)
+void display_osabi(char *ptr)
 {
-	char osabi = ptr[7];
+	char os = ptr[7];
 
 	printf("  OS/ABI:                            ");
-	if (osabi == 0)
+	if (os == 0)
 		printf("UNIX - System V\n");
-	else if (osabi == 2)
+	else if (os == 2)
 		printf("UNIX - NetBSD\n");
-	else if (osabi == 6)
+	else if (os == 6)
 		printf("UNIX - Solaris\n");
 	else
-		printf("<unknown: %x>\n", osabi);
+		printf("<unknown: %x>\n", os);
 
 	printf("  ABI Version:                       %d\n", ptr[8]);
 }
 
 
 /**
- * print_version - prints version
- * @ptr: magic.
- * Return: no return.
+ * display_version - prints version
+ * @ptr: Pointer
  */
-void print_version(char *ptr)
+void display_version(char *ptr)
 {
-	int version = ptr[6];
+	int vers = ptr[6];
 
-	printf("  Version:                           %d", version);
+	printf("  Version:                           %d", vers);
 
-	if (version == EV_CURRENT)
+	if (vers == EV_CURRENT)
 		printf(" (current)");
 
 	printf("\n");
 }
 /**
- * print_data - prints data
- * @ptr: magic.
- * Return: no return.
+ * display_data - prints data
+ * @ptr: Pointer
  */
-void print_data(char *ptr)
+void display_data(char *ptr)
 {
 	char data = ptr[5];
 
@@ -137,18 +132,17 @@ void print_data(char *ptr)
 }
 
 /**
- * print_magic - prints magic info.
- * @ptr: magic.
- * Return: no return.
+ * display_magic - prints magic info.
+ * @ptr: Pointer
  */
-void print_magic(char *ptr)
+void display_magic(char *ptr)
 {
-	int bytes;
+	int buf;
 
 	printf("  Magic:  ");
 
-	for (bytes = 0; bytes < 16; bytes++)
-		printf(" %02x", ptr[bytes]);
+	for (buf = 0; buf < 16; buf++)
+		printf(" %02x", ptr[buf]);
 
 	printf("\n");
 
@@ -167,7 +161,7 @@ void check_sys(char *ptr)
 		exit(98);
 
 	printf("ELF Header:\n");
-	print_magic(ptr);
+	display_magic(ptr);
 
 	if (sys == '1')
 		printf("  Class:                             ELF32\n");
@@ -175,11 +169,11 @@ void check_sys(char *ptr)
 	if (sys == '2')
 		printf("  Class:                             ELF64\n");
 
-	print_data(ptr);
-	print_version(ptr);
-	print_osabi(ptr);
-	print_type(ptr);
-	print_addr(ptr);
+	display_data(ptr);
+	display_version(ptr);
+	display_osabi(ptr);
+	display_type(ptr);
+	display_addr(ptr);
 }
 
 /**
@@ -201,9 +195,9 @@ int check_elf(char *ptr)
 }
 
 /**
- * main - check the code for Holberton School students.
+ * main - Displays the information contained
  * @argc: number of arguments.
- * @argv: arguments vector.
+ * @argv: arguments array.
  * Return: Always 0.
  */
 int main(int argc, char *argv[])

@@ -1,9 +1,12 @@
 #include "lists.h"
+
 /**
-  * dlistint_len - returns number of elements in doubly linked list.
-  * @h: ponter to head node of list.
+  * delete_nodeint_at_index - deletes node of a doubly linked list
+  * at a speified index.
+  * @head: pointer to head of d-list.
+  * @index: position of node to * 0 ;-)
   *
-  * Return: number of elements in list.
+  * Return: 1 on success, -1 on failure.
   */
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {

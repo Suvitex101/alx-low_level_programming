@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
-  * delete_nodeint_at_index - deletes node of a doubly linked list
+  *delete_dnodeint_at_index - deletes node of a doubly linked list
   * at a speified index.
   * @head: pointer to head of d-list.
   * @index: position of node to * 0 ;-)
